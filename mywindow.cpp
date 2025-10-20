@@ -136,12 +136,74 @@ void MyWindow::on_pushButtonLogin_clicked()
   nouvelUtilisateur = isNouveauChecked();
 
   // TO DO
+  int pos=estPresent(nom);
+  
+  if (nouvelUtilisateur== 1) {
+    if(pos>0){
+      setResultat("Utilisateur déjà existant !");
+      return;
+    }
+
+    ajouteUtilisateur(nom, motDePasse);
+    setResultat("Nouvel utilisateur créé : bienvenue !");
+    return;
+  }
+  else{
+    if (pos == -1){ 
+      setResultat("Erreur fichier");
+      return;
+    }
+    if (pos == 0){
+      setResultat("Utilisateur inconnu..."); 
+      return;
+    }
+
+    int ok = verifieMotDePasse(pos, motDePasse);
+    if (ok == -1){
+      setResultat("Erreur fichier");
+      return;
+    }
+    else if (ok == 1){
+      setResultat("Re-bonjour cher utilisateur !");
+      return;
+    }
+    else{
+      setResultat("Mot de passe incorrect...");
+      return;
+    }
+  
+  }
+
   printf("Clic sur bouton LOGIN : --%s--%s--%d--\n",nom,motDePasse,nouvelUtilisateur);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void MyWindow::on_pushButtonAfficheFichier_clicked()
 {
-  // TO DO
+  UTILISATEUR vecteur[500];
+  int nb, i;
+
+  nb = listeUtilisateurs(vecteur);
+
+  videTableUtilisateurs();
+
+  if (nb == -1)
+  {
+    setResultat("Erreur fichier");
+    return;
+  }
+
+  if (nb == 0)
+  {
+    setResultat("Aucun utilisateur enregistré.");
+    return;
+  }
+
+  for (i = 0; i < nb; i++)
+  {
+    ajouteTupleTableUtilisateurs(vecteur[i].nom, vecteur[i].hash);
+  }
+
+  setResultat("Affichage du contenu"); 
   printf("Clic sur bouton AFFICHER\n");
 }

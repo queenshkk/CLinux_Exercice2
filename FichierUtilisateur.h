@@ -15,6 +15,7 @@ int estPresent(const char* nom);
 //           0 si pas trouve
 //           la position (1,2,3, ...) dans le fichier si trouve
 
+
 int hash(const char* motDePasse);
 // calcul le hash du mot de passe = (somme des codes ASCII) % 97
 
@@ -34,3 +35,7 @@ int listeUtilisateurs(UTILISATEUR *vecteur);
 //          -1 si le fichier n'existe pas
 
 #endif
+
+/*Si wagner present, wagner est present --> numero d'enregistrement de wagner
+fonction verifiemdp, aller a l'enregitsrer, le lire et regarder si ça correspond au mdp */
+
