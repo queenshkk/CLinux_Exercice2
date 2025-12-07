@@ -21,7 +21,7 @@ int hash(const char* motDePasse);
 
 void ajouteUtilisateur(const char* nom, const char* motDePasse);
 // ajoute un nouvel utilisateur à la fin du fichier
-// crée le fichier su celui-ci n'existe pas
+// crée le fichier si celui-ci n'existe pas
 
 int verifieMotDePasse(int pos, const char* motDePasse);
 // reçoit la position de l'utilisateur obligatoirement présent dans le fichier et un mot de passe
@@ -36,6 +36,4 @@ int listeUtilisateurs(UTILISATEUR *vecteur);
 
 #endif
 
-/*Si wagner present, wagner est present --> numero d'enregistrement de wagner
-fonction verifiemdp, aller a l'enregitsrer, le lire et regarder si ça correspond au mdp */
 

@@ -136,42 +136,42 @@ void MyWindow::on_pushButtonLogin_clicked()
   nouvelUtilisateur = isNouveauChecked();
 
   // TO DO
-  int pos=estPresent(nom);
+  int pos=estPresent(nom); // cherche si l'utilisateur existe déjà
   
-  if (nouvelUtilisateur== 1) {
-    if(pos>0){
+  if (nouvelUtilisateur== 1) { // si c'est un nouvel utilisateur
+    
+    if(pos>0){ // utilisateur trouvé, déjà présent
       setResultat("Utilisateur déjà existant !");
       return;
     }
-
+    
+    // pas présent ou fichier absent, on crée l'utilisateur
     ajouteUtilisateur(nom, motDePasse);
     setResultat("Nouvel utilisateur créé : bienvenue !");
+
+    int ha=hash(motDePasse);
+    ajouteTupleTableUtilisateurs(nom, ha); // maj de la petite table d'affichage
+
     return;
   }
-  else{
-    if (pos == -1){ 
-      setResultat("Erreur fichier");
+  else{ // si c'est pas un nouvel utilisateur
+    if(pos<=0){ // utilisateur pas trouvé ou erreur
+       setResultat("Utilisateur inconnu..."); 
       return;
     }
-    if (pos == 0){
-      setResultat("Utilisateur inconnu..."); 
-      return;
-    }
+    // utilisateur trouvé donc présent
 
     int ok = verifieMotDePasse(pos, motDePasse);
-    if (ok == -1){
-      setResultat("Erreur fichier");
-      return;
-    }
-    else if (ok == 1){
+    if(ok==1){ // mot de passe correct
       setResultat("Re-bonjour cher utilisateur !");
-      return;
+    }
+    else if(ok==0){ // mauvais mot de passe
+      setResultat("Mot de passe incorrect...");
     }
     else{
-      setResultat("Mot de passe incorrect...");
-      return;
+        setResultat("Erreur vérification");
     }
-  
+   
   }
 
   printf("Clic sur bouton LOGIN : --%s--%s--%d--\n",nom,motDePasse,nouvelUtilisateur);
@@ -180,10 +180,10 @@ void MyWindow::on_pushButtonLogin_clicked()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void MyWindow::on_pushButtonAfficheFichier_clicked()
 {
-  UTILISATEUR vecteur[500];
+  UTILISATEUR tab[500];
   int nb, i;
 
-  nb = listeUtilisateurs(vecteur);
+  nb = listeUtilisateurs(tab);
 
   videTableUtilisateurs();
 
@@ -195,13 +195,13 @@ void MyWindow::on_pushButtonAfficheFichier_clicked()
 
   if (nb == 0)
   {
-    setResultat("Aucun utilisateur enregistré.");
+    setResultat("Fichier vide");
     return;
   }
 
-  for (i = 0; i < nb; i++)
+  for (i = 0; i < nb; i++) // on remplit la table avec tous les utilisateurs
   {
-    ajouteTupleTableUtilisateurs(vecteur[i].nom, vecteur[i].hash);
+    ajouteTupleTableUtilisateurs(tab[i].nom, tab[i].hash);
   }
 
   setResultat("Affichage du contenu"); 

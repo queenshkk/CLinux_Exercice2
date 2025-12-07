@@ -20,3 +20,9 @@ moc_mywindow.o : moc_mywindow.cpp
 FichierUtilisateur.o : FichierUtilisateur.cpp
 	echo Création de compilation Fichier Utilisateur
 	g++ FichierUtilisateur.cpp -c
+
+clean :
+	rm -f *.o
+
+clobber : clean
+	rm -f CLINUX_Exercice2
